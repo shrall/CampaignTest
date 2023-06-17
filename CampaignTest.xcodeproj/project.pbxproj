@@ -21,6 +21,7 @@
 		1009A11E2A3DF22B00E07B83 /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1009A11D2A3DF22B00E07B83 /* MovieDetailViewController.swift */; };
 		1009A1202A3DF90500E07B83 /* MovieDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1009A11F2A3DF90500E07B83 /* MovieDetailViewModel.swift */; };
 		1009A1222A3E11AC00E07B83 /* ProductionCompanyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1009A1212A3E11AC00E07B83 /* ProductionCompanyCollectionViewCell.swift */; };
+		1009A1252A3E1FDE00E07B83 /* Cosmos in Frameworks */ = {isa = PBXBuildFile; productRef = 1009A1242A3E1FDE00E07B83 /* Cosmos */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1009A1252A3E1FDE00E07B83 /* Cosmos in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,6 +149,9 @@
 			dependencies = (
 			);
 			name = CampaignTest;
+			packageProductDependencies = (
+				1009A1242A3E1FDE00E07B83 /* Cosmos */,
+			);
 			productName = CampaignTest;
 			productReference = 1009A0F72A3D73CA00E07B83 /* CampaignTest.app */;
 			productType = "com.apple.product-type.application";
@@ -175,6 +180,9 @@
 				Base,
 			);
 			mainGroup = 1009A0EE2A3D73CA00E07B83;
+			packageReferences = (
+				1009A1232A3E1FDE00E07B83 /* XCRemoteSwiftPackageReference "Cosmos" */,
+			);
 			productRefGroup = 1009A0F82A3D73CA00E07B83 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -430,6 +438,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1009A1232A3E1FDE00E07B83 /* XCRemoteSwiftPackageReference "Cosmos" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/evgenyneu/Cosmos.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 23.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1009A1242A3E1FDE00E07B83 /* Cosmos */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1009A1232A3E1FDE00E07B83 /* XCRemoteSwiftPackageReference "Cosmos" */;
+			productName = Cosmos;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1009A0EF2A3D73CA00E07B83 /* Project object */;
 }

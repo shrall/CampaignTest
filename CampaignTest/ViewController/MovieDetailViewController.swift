@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Cosmos
 
 class MovieDetailViewController: UIViewController {
     var movieID: Int!
@@ -18,6 +19,7 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet var runtimeLabel: UILabel!
     @IBOutlet var releaseDateLabel: UILabel!
     @IBOutlet var ratingLabel: UILabel!
+    @IBOutlet var cosmos: CosmosView!
     
     @IBOutlet var productionCompaniesCollectionView: UICollectionView!
     
@@ -71,16 +73,7 @@ class MovieDetailViewController: UIViewController {
         
         runtimeLabel.text = "Runtime: \(String(describing: movieDetailVM.movieDetail.runtime)) minutes"
         releaseDateLabel.text = "Release Date: \(movieDetailVM.movieDetail.releaseDate)"
-        var rating = "Rating: "
-        for number in 1 ... 10 {
-            if Double(number) < movieDetailVM.movieDetail.voteAverage {
-                rating += "􀋃"
-            } else {
-                rating += "􀋂"
-            }
-        }
-        rating += " (\(movieDetailVM.movieDetail.voteCount) votes)"
-        ratingLabel.text = rating
+        cosmos.rating = movieDetailVM.movieDetail.voteAverage
         
         productionCompaniesCollectionView.delegate = self
         productionCompaniesCollectionView.dataSource = self
