@@ -33,6 +33,10 @@ extension MovieViewModel {
 }
 
 extension MovieViewModel {
+    var id: Int {
+        return self.movie.id
+    }
+    
     var title: String {
         return self.movie.title
     }

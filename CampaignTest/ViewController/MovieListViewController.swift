@@ -23,11 +23,7 @@ class MovieListViewController: UIViewController {
     }
     
     private func setup() {
-        // Set navigation bar title to large by default
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
         fetchMovies()
-        
     }
     
     private func fetchMovies() {
@@ -42,7 +38,7 @@ class MovieListViewController: UIViewController {
         request.httpMethod = "GET"
         request.allHTTPHeaderFields = headers
         
-        WebService().getCategories(url: request) { movies in
+        WebService().getMovies(url: request) { movies in
             if let movies = movies {
                 DispatchQueue.main.async { [self] in
                     movieListVM = MovieListViewModel(movies: movies)
@@ -93,6 +89,15 @@ extension MovieListViewController: UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "MovieDetailSegue", sender: movieListVM.movieAtIndex(indexPath.row))
         collectionView.deselectItem(at: indexPath, animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "MovieDetailSegue" {
+            if let destinationVC = segue.destination as? MovieDetailViewController, let movieVM = sender as? MovieViewModel {
+                destinationVC.movieID = movieVM.id
+            }
+        }
     }
 }
