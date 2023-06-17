@@ -15,7 +15,7 @@ struct Exampley {
 class MovieListViewController: UIViewController {
     @IBOutlet var movieListCollectionView: UICollectionView!
     
-    private var examples = [Exampley(name: "Fight Club", iconImageUrl: "https://image.tmdb.org/t/p/original/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg"), Exampley(name: "The Super Mario Bros. Movie", iconImageUrl: "https://image.tmdb.org/t/p/original/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg")]
+    private var movieListVM : MovieListViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,23 +26,53 @@ class MovieListViewController: UIViewController {
         // Set navigation bar title to large by default
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        movieListCollectionView.delegate = self
-        movieListCollectionView.dataSource = self
-        movieListCollectionView.reloadData()
+        fetchMovies()
+        
+    }
+    
+    private func fetchMovies() {
+        let headers = [
+          "accept": "application/json",
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwZjRiYzNjYmEwMTNhNjBjNzkwYWY3MmMwMmQzMDgxZSIsInN1YiI6IjY0OGQ3MGU0YzJmZjNkMDBhZDAxYTNiZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.zjhlJFucWs61JcF_7UrJcmnltoruRA4YfdJxPOgdLQM"
+        ]
+
+        let request = NSMutableURLRequest(url: NSURL(string: "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc")! as URL,
+                                                cachePolicy: .useProtocolCachePolicy,
+                                            timeoutInterval: 10.0)
+        request.httpMethod = "GET"
+        request.allHTTPHeaderFields = headers
+        
+        WebService().getCategories(url: request) { movies in
+            if let movies = movies {
+                DispatchQueue.main.async { [self] in
+                    movieListVM = MovieListViewModel(movies: movies)
+                    movieListCollectionView.reloadData()
+                    movieListCollectionView.delegate = self
+                    movieListCollectionView.dataSource = self
+                }
+            }
+        }
     }
 }
 
 extension MovieListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return examples.count
+        return movieListVM.numberOfItemsInSection(section)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCollectionViewCell", for: indexPath) as! MovieCollectionViewCell
         
-        cell.title.text = examples[indexPath.row].name
+        let movieVM = movieListVM.movieAtIndex(indexPath.row)
+        cell.circularProgress.startAnimating()
+        cell.title.text = movieVM.title
+        cell.poster.image = UIImage()
         
-        guard let url = URL(string: examples[indexPath.row].iconImageUrl) else {
+        guard let url = URL(string: "https://image.tmdb.org/t/p/original" + movieVM.posterPath) else {
             return cell
         }
         
@@ -53,7 +83,8 @@ extension MovieListViewController: UICollectionViewDelegate, UICollectionViewDat
             
             DispatchQueue.main.async {
                 let image = UIImage(data: data)
-                cell.image.image = image
+                cell.poster.image = image
+                cell.circularProgress.stopAnimating()
             }
         }
         getImageTask.resume()

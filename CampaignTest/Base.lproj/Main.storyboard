@@ -34,6 +34,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="188" height="268.33333333333331"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Kfd-Rc-Ovu">
+                                                    <rect key="frame" x="75.666666666666671" y="115.66666666666669" width="37" height="37"/>
+                                                </activityIndicatorView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="i7w-K3-AQm">
                                                     <rect key="frame" x="4" y="4" width="180" height="260.33333333333331"/>
                                                     <subviews>
@@ -61,13 +64,16 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="i7w-K3-AQm" firstAttribute="leading" secondItem="gp0-ol-5hS" secondAttribute="leading" constant="4" id="4bp-Q6-vaH"/>
+                                                <constraint firstItem="Kfd-Rc-Ovu" firstAttribute="centerX" secondItem="gp0-ol-5hS" secondAttribute="centerX" id="GVv-MV-sR4"/>
                                                 <constraint firstAttribute="trailing" secondItem="i7w-K3-AQm" secondAttribute="trailing" constant="4" id="YXx-D6-l81"/>
                                                 <constraint firstItem="i7w-K3-AQm" firstAttribute="top" secondItem="gp0-ol-5hS" secondAttribute="top" constant="4" id="hTw-vR-f1g"/>
                                                 <constraint firstAttribute="bottom" secondItem="i7w-K3-AQm" secondAttribute="bottom" constant="4" id="sJK-h2-rGk"/>
+                                                <constraint firstItem="Kfd-Rc-Ovu" firstAttribute="centerY" secondItem="gp0-ol-5hS" secondAttribute="centerY" id="sS5-Ji-lql"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
-                                            <outlet property="image" destination="1U8-kp-MYk" id="3zi-fD-yHv"/>
+                                            <outlet property="circularProgress" destination="Kfd-Rc-Ovu" id="4ek-xH-Evm"/>
+                                            <outlet property="poster" destination="1U8-kp-MYk" id="pS2-ID-duh"/>
                                             <outlet property="title" destination="825-mC-xRK" id="xw3-eS-89X"/>
                                         </connections>
                                     </collectionViewCell>
