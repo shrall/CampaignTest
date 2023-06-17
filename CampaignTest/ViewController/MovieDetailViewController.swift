@@ -17,6 +17,7 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet var overviewLabel: UILabel!
     
     @IBOutlet var runtimeLabel: UILabel!
+    @IBOutlet var genreLabel: UILabel!
     @IBOutlet var releaseDateLabel: UILabel!
     @IBOutlet var ratingLabel: UILabel!
     @IBOutlet var cosmos: CosmosView!
@@ -53,9 +54,11 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func setup() {
-        titleLabel.text = movieDetailVM.movieDetail.title
-        overviewLabel.text = movieDetailVM.movieDetail.overview
-        guard let url = URL(string: "https://image.tmdb.org/t/p/original" + movieDetailVM.movieDetail.posterPath) else {
+        let movieDetail = movieDetailVM.movieDetail
+        
+        titleLabel.text = movieDetail.title
+        overviewLabel.text = movieDetail.overview
+        guard let url = URL(string: "https://image.tmdb.org/t/p/original" + movieDetail.posterPath) else {
             return
         }
         
@@ -71,9 +74,20 @@ class MovieDetailViewController: UIViewController {
         }
         getImageTask.resume()
         
-        runtimeLabel.text = "Runtime: \(String(describing: movieDetailVM.movieDetail.runtime)) minutes"
-        releaseDateLabel.text = "Release Date: \(movieDetailVM.movieDetail.releaseDate)"
-        cosmos.rating = movieDetailVM.movieDetail.voteAverage
+        runtimeLabel.text = "Runtime: \(String(describing: movieDetail.runtime)) minutes"
+        releaseDateLabel.text = "Release Date: \(movieDetail.releaseDate)"
+        cosmos.rating = movieDetail.voteAverage
+        
+        var genres = "Genres: "
+        
+        for genre in movieDetail.genres {
+            genres += genre.name
+            if movieDetail.genres.last?.name != genre.name {
+                genres += ", "
+            }
+        }
+        
+        genreLabel.text = genres
         
         productionCompaniesCollectionView.delegate = self
         productionCompaniesCollectionView.dataSource = self
